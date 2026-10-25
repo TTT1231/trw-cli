@@ -4,6 +4,10 @@
     "description": "TRW 项目脚手架，基于内置模板创建 monorepo 等项目",
     "type": "module",
     "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TTT1231/trw-cli.git"
+    },
     "bin": {
         "trw": "dist/index.mjs"
     },
