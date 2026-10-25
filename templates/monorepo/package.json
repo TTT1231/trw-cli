@@ -1,0 +1,37 @@
+{
+    "name": "__NAME__",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
+    "keywords": [],
+    "license": "ISC",
+    "author": "",
+    "type": "module",
+    "scripts": {
+        "postinstall": "pnpm -r run --if-present stub",
+        "clean": "node scripts/clean.mjs",
+        "typecheck": "tsx scripts/run-affected.ts typecheck",
+        "typecheck:scripts": "tsc --project tsconfig.json",
+        "lint": "tsx scripts/run-oxlint.ts --type-aware",
+        "test": "tsx scripts/run-affected.ts test",
+        "test:scripts": "node --import tsx --test scripts/*.test.ts",
+        "check:ci:static": "pnpm lint && turbo run typecheck typecheck:scripts",
+        "check:ci:unit": "turbo run test test:scripts"
+    },
+    "devDependencies": {
+        "__SCOPE__/tsconfig": "workspace:*",
+        "@types/node": "catalog:",
+        "lefthook": "catalog:",
+        "oxfmt": "catalog:",
+        "oxlint": "catalog:",
+        "oxlint-tsgolint": "catalog:",
+        "tsdown": "catalog:",
+        "tsx": "catalog:",
+        "turbo": "catalog:",
+        "typescript": "catalog:",
+        "vitest": "catalog:"
+    },
+    "engines": {
+        "node": ">=24"
+    }
+}

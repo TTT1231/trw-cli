@@ -1,0 +1,25 @@
+{
+    "name": "__SCOPE__/request",
+    "version": "0.0.1",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "default": "./src/index.ts"
+        }
+    },
+    "scripts": {
+        "test": "vitest run --config ../../vitest.unit.config.ts",
+        "typecheck": "tsc"
+    },
+    "dependencies": {
+        "__SCOPE__/utils": "workspace:*",
+        "axios": "catalog:",
+        "qs": "catalog:"
+    },
+    "devDependencies": {
+        "__SCOPE__/tsconfig": "workspace:*",
+        "@types/qs": "catalog:",
+        "axios-mock-adapter": "catalog:"
+    }
+}

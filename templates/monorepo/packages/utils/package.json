@@ -1,0 +1,17 @@
+{
+    "name": "__SCOPE__/utils",
+    "version": "0.0.1",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "default": "./src/index.ts"
+        }
+    },
+    "scripts": {
+        "typecheck": "tsc"
+    },
+    "devDependencies": {
+        "__SCOPE__/tsconfig": "workspace:*"
+    }
+}

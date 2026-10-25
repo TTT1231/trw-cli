@@ -1,0 +1,36 @@
+{
+    "name": "@trw/cli",
+    "version": "0.1.0",
+    "description": "TRW 项目脚手架，基于内置模板创建 monorepo 等项目",
+    "type": "module",
+    "license": "ISC",
+    "bin": {
+        "trw": "dist/index.mjs"
+    },
+    "files": [
+        "dist",
+        "templates",
+        "README.md"
+    ],
+    "engines": {
+        "node": ">=20"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "build": "tsdown",
+        "dev": "tsdown --watch",
+        "sync-template": "node scripts/sync-template.mjs",
+        "prepublishOnly": "npm run build"
+    },
+    "dependencies": {
+        "picocolors": "^1.1.1",
+        "prompts": "^2.4.2"
+    },
+    "devDependencies": {
+        "@types/node": "^26.6.4",
+        "tsdown": "^0.23.0",
+        "typescript": "^7.0.2"
+    }
+}

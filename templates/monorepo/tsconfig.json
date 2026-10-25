@@ -1,0 +1,6 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "__SCOPE__/tsconfig/node.json",
+    "include": ["scripts", "vitest.unit.config.ts"],
+    "exclude": ["node_modules", "dist"]
+}

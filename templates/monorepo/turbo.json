@@ -1,0 +1,38 @@
+{
+    "$schema": "https://turborepo.com/schema.json",
+    "futureFlags": {
+        "affectedUsingTaskInputs": true
+    },
+    "globalEnv": ["CI", "NODE_ENV", "TZ"],
+    "tasks": {
+        "transit": {
+            "dependsOn": ["^transit"]
+        },
+        "test": {
+            "dependsOn": ["transit"],
+            "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.unit.config.ts"],
+            "outputs": []
+        },
+        "typecheck": {
+            "dependsOn": ["transit"],
+            "outputs": []
+        },
+        "//#test:scripts": {
+            "inputs": [
+                "scripts/**",
+                ".oxlintrc.json",
+                "lefthook.yml",
+                "package.json",
+                "turbo.json",
+                "vitest.unit.config.ts",
+                "tsconfig.json",
+                "pnpm-workspace.yaml"
+            ],
+            "outputs": []
+        },
+        "//#typecheck:scripts": {
+            "inputs": ["scripts/**", "tsconfig.json", "internal/tsconfig/**", "vitest.unit.config.ts"],
+            "outputs": []
+        }
+    }
+}

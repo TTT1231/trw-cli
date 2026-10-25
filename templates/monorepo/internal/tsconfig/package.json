@@ -1,0 +1,14 @@
+{
+    "name": "__SCOPE__/tsconfig",
+    "version": "0.0.1",
+    "private": true,
+    "files": [
+        "base.json",
+        "web.json",
+        "node.json"
+    ],
+    "type": "module",
+    "dependencies": {
+        "vite": "catalog:"
+    }
+}

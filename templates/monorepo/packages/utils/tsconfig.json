@@ -1,0 +1,10 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "__SCOPE__/tsconfig/node.json",
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "bundler"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}
