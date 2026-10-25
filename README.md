@@ -1,107 +1,85 @@
 # trw-cli
 
 [![npm version](https://img.shields.io/npm/v/trw-cli.svg)](https://www.npmjs.com/package/trw-cli)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](#license)
 
-TRW 项目脚手架。基于内置模板创建项目，模板与 CLI 通过占位符契约解耦——日常只需维护模板本身，CLI 代码无需改动。
+一条命令，创建一个配置齐全的前端 monorepo 项目。
 
-## 快速开始
+## 它能干什么
+
+手动搭一个 monorepo 项目，要装一堆工具、写一堆配置：包管理、代码检查、格式化、测试、提交检查……用 trw-cli，一条命令全部搞定，生成的项目装完依赖就能直接写代码。
+
+## 安装
 
 ```bash
 npm install -g trw-cli
+```
 
+## 创建项目
+
+```bash
+trw create monorepo
+```
+
+它会问你两个问题：
+
+1. 项目叫什么名字（比如 `my-app`）
+2. 子包用什么前缀（直接回车就行，默认和项目名一样）
+
+不想被问，可以一步到位：
+
+```bash
 trw create monorepo my-app
 ```
 
-省略项目名则进入交互式引导（选模板 → 输入项目名 → 确认 scope）：
+创建完，照着提示做：
 
 ```bash
-$ trw create monorepo my-app
-? 子包 scope（回车使用 @my-app/）: my-org
-
-✔ 项目创建成功
-✔ 包名: my-app，子包 scope: @my-org/
-
-后续步骤:
-
-  cd my-app
-  pnpm install  （模板要求 Node >=24）
-
-  常用脚本: pnpm lint / pnpm typecheck / pnpm test
-```
-
-## 命令
-
-```
-trw create [template] [project-name]
-```
-
-| 选项 | 说明 |
-| --- | --- |
-| `--scope <name>` | 子包 scope，默认取项目名（`@<project-name>/`） |
-| `--force` | 目标目录非空时跳过确认 |
-| `-h, --help` | 显示帮助 |
-| `-v, --version` | 显示版本号 |
-
-环境要求：Node >= 20（生成的项目以模板 `engines` 为准）；`git` 可选，存在时自动 `git init`。
-
-## 可用模板
-
-### `monorepo`
-
-pnpm + turbo 的 TypeScript monorepo，开箱即用：
-
-- **工具链**：turbo 任务编排、oxlint / oxfmt（类型感知 lint + 格式化）、vitest 单测、lefthook git 钩子、tsdown 构建
-- **内置子包**：`request`（基于 axios 的请求客户端，含上传 / 下载 / SSE）、`utils`（通用工具函数）、`tsconfig`（共享 TS 配置）
-- **依赖版本锁定**：`pnpm-workspace.yaml` catalog 统一管理版本，`pnpm-lock.yaml` 随模板分发，新项目从诞生起即版本可复现
-- 要求 Node >= 24
-
-## scope 替换机制
-
-模板内的子包统一使用 `__SCOPE__/` 占位符（同步时由源仓库的 `@inner/` 转换而来）。
-创建项目时替换为 `@<scope>/`，覆盖所有出现位置：各子包 `package.json` 的 `name`、
-`workspace:*` 依赖引用、源码 `import`、`tsconfig.json` paths、`pnpm-lock.yaml` 等。
-根 `package.json` 的 `name` 同样由 `"__NAME__"` 占位符还原为项目名。
-
-二进制文件（图片、字体等，按 NUL 字节识别）不做替换，仅字节级复制；
-复制不做行尾转换，保持模板 `.gitattributes` 声明的 LF 规范形态在所有平台一致。
-
-## 模板维护
-
-```
-templates/
-└── monorepo/        # 模板内容，随包发布（勿手改，由同步脚本生成）
-```
-
-日常更新流程：
-
-1. 修改模板源仓库（`zmsys-repo`）
-2. 同步：`pnpm sync-template`（也可传参指定源目录：`node scripts/sync-template.mjs <path>`）
-3. 发布：`pnpm build && npm version patch && npm publish`
-
-同步脚本会自动完成：
-
-- 跳过 `.git` / `node_modules` / `.turbo` / `dist` / `coverage`
-- 根 `package.json` 的 `name` → `"__NAME__"`
-- 文本文件中 `@inner/` → `__SCOPE__/`（源仓库若更换 scope，改 `scripts/sync-template.mjs` 中的 `SCOPE_SOURCE`）
-- 一级空目录补占位 README（git 与 npm 均不保留空目录）
-
-将来新增模板（如 `trw create lib`）只需在 `templates/` 下加一个目录再发版，CLI 的模板列表是动态扫描的，零代码改动。
-
-## 开发
-
-```bash
+cd my-app
 pnpm install
-pnpm build          # tsdown 打包为 dist/index.mjs 单文件
-node dist/index.mjs create monorepo test-app --scope demo   # 本地试跑
 ```
 
-```
-src/index.ts               # 参数解析与帮助信息
-src/create.ts              # create 主流程（交互、复制、占位符还原、git init）
-src/fs.ts                  # 目录复制、文本替换、二进制检测等工具
-scripts/sync-template.mjs  # 模板同步与占位符化
-```
+## 生成的项目里有什么
+
+monorepo 就是**一个仓库里放多个子包**，子包之间可以直接引用，不用先发到 npm。
+
+模板里已经配好的东西：
+
+| 东西 | 是干嘛的 |
+| --- | --- |
+| `packages/request` | 网络请求（基于 axios，支持上传、下载、实时推送） |
+| `packages/utils` | 常用工具函数 |
+| `internal/tsconfig` | 共享的 TypeScript 配置 |
+| turbo | 一条命令跑完所有子包的检查和测试 |
+| oxlint / oxfmt | 代码检查、代码格式化 |
+| vitest | 单元测试 |
+| lefthook | 提交代码前自动检查，有问题不让提交 |
+
+所有依赖的版本都是锁定的，团队里任何人安装出来的版本一模一样，不会出现「我这里能跑，你那里不能跑」。
+
+## 环境要求
+
+- Node.js 20 或更高（运行 trw-cli 用）
+- Node.js 24 或更高（生成的项目用）
+- pnpm（生成的项目用它管理依赖）
+- git 可有可无（有就自动帮你 `git init`）
+
+## 命令一览
+
+| 命令 | 作用 |
+| --- | --- |
+| `trw create monorepo [项目名]` | 创建项目 |
+| `trw -h` | 查看帮助 |
+| `trw -v` | 查看版本 |
+
+| 选项 | 作用 |
+| --- | --- |
+| `--scope 前缀` | 自定义子包前缀（默认用项目名） |
+| `--force` | 目标文件夹不为空时照样创建 |
+
+## 问题反馈
+
+- 仓库：https://github.com/TTT1231/trw-cli
+- 提问题：https://github.com/TTT1231/trw-cli/issues
 
 ## License
 
