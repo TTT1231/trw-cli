@@ -1,11 +1,11 @@
-# @trw/cli
+# trw-cli
 
 TRW 项目脚手架。基于内置模板创建项目，模板与 CLI 通过占位符契约解耦——日常只需维护模板本身。
 
 ## 安装
 
 ```bash
-npm install -g @trw/cli
+npm install -g trw-cli
 ```
 
 ## 用法

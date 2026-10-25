@@ -1,5 +1,5 @@
 {
-    "name": "@trw/cli",
+    "name": "trw-cli",
     "version": "0.1.0",
     "description": "TRW 项目脚手架，基于内置模板创建 monorepo 等项目",
     "type": "module",
@@ -18,9 +18,6 @@
     ],
     "engines": {
         "node": ">=20"
-    },
-    "publishConfig": {
-        "access": "public"
     },
     "scripts": {
         "build": "tsdown",

@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import pc from 'picocolors'
 import { runCreate } from './create'
 
-const helpText = `${pc.bold('@trw/cli')} - TRW 项目脚手架
+const helpText = `${pc.bold('trw-cli')} - TRW 项目脚手架
 
 ${pc.bold('用法:')}
   trw create [template] [project-name]
