@@ -8,6 +8,18 @@
         "type": "git",
         "url": "git+https://github.com/TTT1231/trw-cli.git"
     },
+    "homepage": "https://github.com/TTT1231/trw-cli#readme",
+    "bugs": "https://github.com/TTT1231/trw-cli/issues",
+    "keywords": [
+        "trw",
+        "cli",
+        "scaffold",
+        "generator",
+        "template",
+        "monorepo",
+        "pnpm",
+        "turbo"
+    ],
     "bin": {
         "trw": "dist/index.mjs"
     },
